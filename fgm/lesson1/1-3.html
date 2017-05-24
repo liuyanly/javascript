@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>函数接收参数并弹出</title>
+  <style type="text/css">
+  body{font:12px/1.5 Tahoma;text-align:center;}
+  code,input,button{font-family:inherit;}
+  input{border:1px solid #ccc;padding:3px;}
+  button{cursor:pointer;}
+  </style>
+  <script type="text/javascript">
+  function dialogBox(a,b) {
+    alert(a.value);
+    alert(b.value);
+  }
+  window.onload = function(){
+    var oBtn = document.getElementsByTagName('button')[0];
+    var aInput = document.getElementsByTagName('input');
+    oBtn.onclick = function() {
+      dialogBox(aInput[0],aInput[1])
+    }
+  }
+  </script>
+</head>
+<body>
+<p><input type="text" value="北京市" /></p>
+<p><input type="text" value="朝阳区" /></p>
+<p><button>传参</button></p>
+</body>
+</html>
