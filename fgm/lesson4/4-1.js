@@ -1,5 +1,5 @@
 function getId(id){
-  return document.getElementById(id)
+  return typeof id === "string" ? document.getElementById(id) : id;
 }
 function getClass(sClass,oParent){
   var aClass = [];

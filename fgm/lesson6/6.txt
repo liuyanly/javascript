@@ -1,0 +1,11 @@
+1、不过setCapture不支持键盘事件, 只能捕获以下鼠标事件：onmousedown、onmouseup、onmousemove、onclick、ondblclick、onmouseover和onmouseout。 
+　　程序中主要是要捕获onmousemove和onmouseup事件。 
+　　msdn的介绍中还说到setCapture有一个bool参数，用来设置在容器内的鼠标事件是否都被容器捕获。 
+　　　　参数为true时（默认）容器会捕获容器内所有对象的鼠标事件，即容器内的对象不会触发鼠标事件（跟容器外的对象一样）； 
+　　　　参数为false时容器不会捕获容器内对象的鼠标事件，即容器内的对象可以正常地触发事件和取消冒泡。 
+　　object.setCapture() 当一个object的被 setCapture 后，他的方法将会被继承到整个文档进行捕获。当不需要把方法继承到整个文档捕获时，要用 object.releaseCapture() 来释放. 
+　　Mozilla 也有类似的功能，方法稍微不同 
+　　　　window.captureEvents(Event.eventType) 
+　　　　window.releaseEvents(Event.eventType) 
+2、charAt()方法可返回指定位置的字符
+请注意，javascript并没有一种有别于字符串类型的字符数据类型，所以返回的字符是长度为1的字符串。
