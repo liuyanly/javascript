@@ -35,7 +35,7 @@ function css(obj,attr,value) {
       if(typeof arguments[1] == "object") {
         for ( var i in attr) i == "opacticy" ? (obj.style["filter"] = "alpha(opacticy="+attr[i]+")", obj.style[i] = attr[i]/100) : obj.style[i] = attr[i];
       }else{
-        return obj.currentStyle ? obj.currentStyle[attr] : getComputeStyle(obj, null)[attr]
+        return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj, null)[attr]
       }
       break;
     case 3:
@@ -61,13 +61,13 @@ EventUtil.addLoadHandler(function() {
   var maxNum = 140;
 
   //禁止表单提交
-  EventUtil.addHandler(getTagName("from", oMsgBox)[0], "submit", function(){ return false});
+  EventUtil.addHandler(getTagName("form", oMsgBox)[0], "submit", function(){ return false});
   //为广播按钮绑定发送事件
-  EventUtil.addHandler(oSendBtn, "click" ,fnSend);
+  EventUtil.addHandler(oSendBtn, "click" ,fnsend);
   // 为Ctrl+Enter快捷键绑定发送事件
   EventUtil.addHandler(document, "keyup", function(event){
     var event = event || window.event;
-    event.ctrlKey && event.keyCode == 13 && fnSend()
+    event.ctrlKey && event.keyCode == 13 && fnsend()
   });
   //发送广播函数
   function fnsend() {
