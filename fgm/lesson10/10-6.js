@@ -53,7 +53,8 @@ Roll.prototype = {
     this.timer = setInterval(function(){
       var iSpeed = (iTarget - _this.oList.offsetTop) / 5;
       iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
-      _this.oList.offsetTop == iTarget ? (clearInterval(_this.timer),callBack && callBack(_this)): _this.oList.style.top = iSpeed + _this.oList.offsetTop + "px"
+      _this.oList.offsetTop == iTarget ? (clearInterval(_this.timer),callBack && callBack.apply(_this)):
+      _this.oList.style.top = iSpeed + _this.oList.offsetTop + "px"
     },30)
   }
 }
