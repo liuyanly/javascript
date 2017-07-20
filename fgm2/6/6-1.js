@@ -5,21 +5,21 @@ window.onload = function() {
   var aSpan = oBox.getElementsByTagName("span");
   var disX = disY = 0;
   var bDrag = false;
-  var aPos = [{x:oBox.offsetLeft, y:oBox.offsetTop}]
+  var aPos = [{x:oBox.offsetLeft, y:oBox.offsetTop}];
   oH2.onmousedown = function(event) {
     var event = event || window.event;
     bDrag = true;
     var disX = event.clientX - oBox.offsetLeft;
-    var dixY = event.clientY - oBox.offsetTop;
+    var disY = event.clientY - oBox.offsetTop;
 
     aPos.push({x:oBox.offsetLeft,y:oBox.offsetTop});
 
     this.setCapture && this.setCapture();
 
-    return false
+    return false;
   }
   document.onmousemove = function(event) {
-    if(!bDrag) return;
+    if(!bDrag) return
     var event = event || window.event;
     var iL = event.clientX - disX;
     var iT = event.clientY - disY;
@@ -27,41 +27,39 @@ window.onload = function() {
     var maxT = document.documentElement.clientHeight - oBox.offsetHeight;
 
     iL = iL < 0 ? 0 : iL;
-    iL = iL > maxL ? maxL: iL;
+    iL = iL > maxL ? maxL : iL;
 
     iT = iT < 0 ? 0 : iT;
     iT = iT > maxT ? maxT : iT;
 
-    oBox.style.marginTop = oBox.style.marginLeft = 0;
+    oBox.style.marginLeft = oBox.style.marginTop = 0;
     oBox.style.left = iL + "px";
     oBox.style.top = iT + "px";
 
-    aPos.push({x:iL,y:iT});
+    aPos.push({x:iL,y:iT})
 
-    status();
+    status()
 
     return false
   }
 
-  document.onmouseup = window.onblur = oH2.onlosecapture = function() {
+  document.onmouseup = window.onblur = oH2.onlosecapture = function(){
     bDrag = false;
     oH2.releaseCapture && oH2.releaseCapture();
     status()
   }
   oA.onclick = function() {
+
     if(aPos.length == 1) return;
     var timer = setInterval(function(){
       var oPos = aPos.pop();
-      oPos ? (oBox.style.left = oPos.x + "px",oBox.style.top = oPos.y + "px", status()) : clearInterval(timer)
+      oPos ? (oBox.style.left = oPos.x + "px", oBox.style.top = oPos.y + "px", status()) :
+      clearInterval(timer);
     },30)
-
-    this.onfocus = false;
-    return false
+    this.focus = false;
+    return false;
   }
-  oA.onmousedown = function(event) {
-    (event || window.event).cancelBubble = true
-  }
-  function status() {
+  function status(){
     aSpan[0].innerHTML = bDrag;
     aSpan[1].innerHTML = oBox.offsetTop;
     aSpan[2].innerHTML = oBox.offsetLeft;
