@@ -1,157 +1,148 @@
-
-var fgm = {
-  on: function(element, type, handler) {
-    return element.addEventListener ? element.addEventListener(type, handler, false) : element.attachEvent("on" + type, handler)
-  },
-  un: function(element, type, handler) {
-    return element.removeEventListener ? element.removeEventListener(type, handler, false) : element.detachEvent("on" + type, handler)
-  },
-  bind: function(object, handler) {
-    return function() {
-      return handler.apply(object, arguments)
-    }
-  },
-  randomRange: function(lower, upper) {
-    return Math.floor(Math.random() * (upper - lower + 1) + lower)
-  },
-  getRanColor: function() {
-    var str = this.randomRange(0, 0xFFFFFF).toString(16);
-    while(str.length < 6) str = "0" + str;
-    return "#" + str
-  }
-};
-//初始化对象
-function FireWorks() {
-  this.type = 0;
-  this.timer = null;
-  this.fnManual = fgm.bind(this, this.manual)
+function randomRange (lower, uper) {
+  return Math.floor(Math.random()*(uper - lower + 1)+lower)
 }
-FireWorks.prototype = {
-  initialize: function() {
-    clearTimeout(this.timer);
-    fgm.un(document, "click", this.fnManual);
-    switch(this.type) {
-      case 1:
-        fgm.on(document, "click", this.fnManual);
-        break;
-      case 2:
-        this.auto();
-        break;
-    };
-  },
-  manual: function(event) {
-    event = event || window.event;
-    this.__create__({
-      x: event.clientX,
-      y: event.clientY
-    });
-  },
-  auto: function ()
-  {
-    var that = this;
-    that.timer = setTimeout(function() {
-      that.__create__({
-        x: fgm.randomRange(50, document.documentElement.clientWidth - 50),
-        y: fgm.randomRange(50, document.documentElement.clientHeight - 150)
-      })
-      that.auto();
-    }, fgm.randomRange(900, 1100))
-  },
-  __create__: function (param)
-  {
-    var that = this;
-    var oEntity = null;
-    var oChip = null;
-    var aChip = [];
-    var timer = null;
-    var oFrag = document.createDocumentFragment();
+function getRanColor (){
+  var str = randomRange(0,0xFFFFFF).toString(16);
+  while(str.length < 6) str = "0"+str;
+  return "#"+str;
+}
+function on(element,type,handler){
+  return element.addEventListener?element.addEventListener(type,handler,false):attachEvent("on"+type,handler);
+}
+function manual(event){
+  var event = event || window.event;
+  create({
+    x:event.clientX,
+    y:event.clientY
+  });
+}
+function auto(){
+  timer = setTimeout(function(){
+    create({
+      x:randomRange(50,document.documentElement.clientWidth - 50),
+      y:randomRange(50,document.documentElement.clientHeight - 150)
+    })
+    auto();
+  },randomRange(900,1100))
+}
 
-    oEntity = document.createElement("div");
-    with(oEntity.style) {
-      position = "absolute";
-      top = document.documentElement.clientHeight + "px";
-      left = param.x + "px";
-      width = "4px";
-      height = "30px";
-      borderRadius = "4px";
-      background = fgm.getRanColor();
-    };
-    document.body.appendChild(oEntity);
-    oEntity.timer = setInterval(function() {
-      oEntity.style.top = oEntity.offsetTop - 20 + "px";
-      if(oEntity.offsetTop <= param.y) {
-        clearInterval(oEntity.timer);
-        document.body.removeChild(oEntity);
-        (function() {
-          //在50-100之间随机生成碎片
-          //由于IE浏览器处理效率低, 随机范围缩小至20-30
-          //自动放烟花时, 随机范围缩小至20-30
-          var len = (/msie/i.test(navigator.userAgent) || that.type == 2) ? fgm.randomRange(20, 30) : fgm.randomRange(50, 100)
-          for (i = 0; i < len; i++) {
-            oChip = document.createElement("div");
-            with(oChip.style) {
-              position = "absolute";
-              top = param.y + "px";
-              left = param.x + "px";
-              width = "4px";
-              height = "4px";
-              overflow = "hidden";
-              borderRadius = "4px";
-              background = fgm.getRanColor();
-            };
-            oChip.speedX = fgm.randomRange(-20, 20);
-            oChip.speedY = fgm.randomRange(-20, 20);
-            oFrag.appendChild(oChip);
-            aChip[i] = oChip
-          };
-          document.body.appendChild(oFrag);
-          timer = setInterval(function() {
-            for(i = 0; i < aChip.length; i++) {
-              var obj = aChip[i];
-              with(obj.style) {
-                top = obj.offsetTop + obj.speedY + "px";
-                left = obj.offsetLeft + obj.speedX + "px";
-              };
-              obj.speedY++;
-              (obj.offsetTop < 0 || obj.offsetLeft < 0 || obj.offsetTop > document.documentElement.clientHeight || obj.offsetLeft > document.documentElement.clientWidth) && (document.body.removeChild(obj), aChip.splice(i, 1))
-            };
-            !aChip[0] && clearInterval(timer);
-          }, 30)
-        })()
-      }
-    }, 30)
+function create(param){
+  var oDiv = document.createElement("div");
+  var timer = null;
+  with(oDiv.style){
+    position = "absolute";
+    left = param.x + "px";
+    top = document.documentElement.clientHeight + "px";
+    width = "4px";
+    height = "30px";
+    borderRadius = "4px";
+    background = getRanColor();
   }
-};
-
-fgm.on(window, "load", function() {
-  var oTips = document.getElementById("tips");
-  var aBtn = oTips.getElementsByTagName("a");
-  var oFireWorks = new FireWorks();
-
-  fgm.on(oTips, "click", function(event) {
-    var oEvent = event || window.event;
-    var oTarget = oEvent.target || oEvent.srcElement;
-    var i = 0;
-    if(oTarget.tagName.toUpperCase() == "A") {
-      for(i = 0; i < aBtn.length; i++) aBtn[i].className = "";
-      switch(oTarget.id) {
+  document.body.appendChild(oDiv);
+  oDiv.timer = setInterval(function(){
+    oDiv.style.top = oDiv.offsetTop - 20 + "px";
+    if(oDiv.offsetTop <= param.y) {
+      clearInterval(oDiv.timer);
+      document.body.removeChild(oDiv);
+      (function(){
+        var oFrag = document.createDocumentFragment();
+        var aChip = [];
+        var len = /msie/i.test(navigator.userAgent)?randomRange(20,30):randomRange(50,100);
+        for (var i = 0; i < len; i++) {
+          var oChip = document.createElement("div");
+          with(oChip.style) {
+            position = "absolute";
+            left = param.x+"px";
+            top = param.y+"px";
+            width = "4px";
+            height = "4px";
+            borderRadius = "4px";
+            overflow = "hidden";
+            background = getRanColor();
+          }
+          oChip.speedX = randomRange(-20,20);
+          oChip.speedY = randomRange(-20,20);
+          oFrag.appendChild(oChip);
+          aChip[i] = oChip;
+        }
+        document.body.appendChild(oFrag);
+        timer = setInterval(function(){
+          for (var i = 0; i < aChip.length; i++) {
+            var obj=aChip[i];
+            with(obj.style){
+              top = obj.offsetTop + obj.speedY + "px";
+              left = obj.offsetLeft + obj.speedX + "px";
+            }
+            obj.speedY++;
+            (obj.offsetLeft < 0 || obj.offsetLeft > document.documentElement.clientWidth || obj.offsetTop < 0 || obj.offsetTop > document.documentElement.clientHeight) && (document.body.removeChild(obj),aChip.splice(i,1));
+          }
+          !aChip[0] && clearInterval(timer);
+        },30)
+      })()
+    }
+  },30)
+}
+// on(window, "load", function(){
+//   var oTip = document.getElementById("tips");
+//   var aA = oTip.getElementsByTagName("a");
+//   on(oTip,"click",function(event){
+//     var event = event || window.event;
+//     var oTarget = event.target || event.srcElement;
+//     if(oTarget.tagName.toUpperCase() == "A"){
+//       for (var j = 0; j < aA.length; j++)  aA[j].className = "";
+//       oTarget.className = "active";
+//       switch(oTarget.id){
+//         case "manual":
+//           on(document,"click",manual());
+//           break;
+//         case "auto":
+//           auto();
+//           break;
+//       }
+//       event.stopPropagation ? event.stopPropagation() : event.cancelBubble = true;
+//     }
+//   })
+// })
+window.onload = function(){
+  var oTip = document.getElementById("tips");
+  var aA = oTip.getElementsByTagName("a");
+  // on(oTip,"click",function(event){
+  //   var event = event || window.event;
+  //   var oTarget = event.target || event.srcElement;
+  //   if(oTarget.tagName.toUpperCase() == "A"){
+  //     for (var j = 0; j < aA.length; j++)  aA[j].className = "";
+  //     oTarget.className = "active";
+  //     switch(oTarget.id){
+  //       case "manual":
+  //         on(document,"click",manual());
+  //         break;
+  //       case "auto":
+  //         auto();
+  //         break;
+  //     }
+  //     event.stopPropagation ? event.stopPropagation() : event.cancelBubble = true;
+  //   }
+  // })
+  for (var i = 0; i < aA.length; i++) {
+    aA[i].onclick = function(event){
+      var event = event || window.event;
+      console.log(event.clientX);
+      for (var j = 0; j < aA.length; j++)  aA[j].className = "";
+      this.className = "active";
+      switch(this.id){
         case "manual":
-          oFireWorks.type = 1;
+          on(document,"click",manual());
           break;
         case "auto":
-          oFireWorks.type = 2;
-          break;
-        case "stop":
-          oFireWorks.type = 0;
+          auto();
           break;
       }
-      oFireWorks.initialize();
-      oTarget.className = "active";
-      oEvent.stopPropagation ? oEvent.stopPropagation() : oEvent.cancelBubble = true
+      event.stopPropagation ? event.stopPropagation() : event.cancelBubble = true;
     }
-  });
-});
-fgm.on(document, "contextmenu", function(event) {
-  var oEvent = event || window.event;
-  oEvent.preventDefault ? oEvent.preventDefault() : oEvent.returnValue = false
-});
+  }
+}
+on(document,"contextmenu",function(event){
+  var event = event || window.event;
+  event.preventDefault ? event.preventDefault(): event.returnValue = false;
+})
+

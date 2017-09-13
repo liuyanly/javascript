@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>无缝滚动(面向对象版)</title>
+  <style>
+body,div,ul,li{margin:0;padding:0;}
+body{background:#052D01;font:12px/1.5 arial;}
+#box{position:relative;width:210px;height:700px;border:1px solid #5E8743;margin:20px;}
+#box div{position:absolute;top:50%;left:50%;width:160px;height:570px;overflow:hidden;margin:-285px 0 0 -80px;}
+#box .up,#box .down{position:absolute;left:50%;width:48px;height:48px;z-index:10;cursor:pointer;overflow:hidden;margin-left:-24px;text-indent:-9999px;background:url(img/arrow.jpg) no-repeat;}
+#box .up{top:10px;background-position:0 0;}
+#box .down{bottom:10px;background-position:0 bottom;}
+#box ul{position:absolute;width:160px;}
+#box li{width:160px;height:190px;list-style:none;text-align:center;}
+#box a{color:#fff;font-weight:700;text-decoration:none;}
+#box img{width:156px;height:156px;display:block;margin-bottom:5px;border:2px solid #ccc;}
+  </style>
+  <script src="10-6.js"></script>
+</head>
+<body>
+<div id="box">
+    <span class="up">up</span>
+    <span class="down">down</span>
+    <div>
+        <ul class="list">
+            <li><a href="javascript:;"><img src="img/1.jpeg" />Ozolio - Webcam Hosting</a></li>
+            <li><a href="javascript:;"><img src="img/2.jpeg" />Sullivan Construction Inc.</a></li>
+            <li><a href="javascript:;"><img src="img/3.jpeg" />Maui Stables</a></li>
+            <li><a href="javascript:;"><img src="img/4.jpeg" />Code Rebel 3.0</a></li>
+            <li><a href="javascript:;"><img src="img/5.jpeg" />SecurityPro Shop</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
