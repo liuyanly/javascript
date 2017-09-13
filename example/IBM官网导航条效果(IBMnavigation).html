@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IBM官网导航条效果</title>
+  <style>
+  body,div,ul,li{margin:0;padding:0;}
+  body{height:2000px;background:#F0F0F0;}
+  li{list-style:none;}
+  a:link,a:visited{outline:none;text-decoration:none;}
+  #wrap{width:100%;position:fixed;top:0;}
+  #topBar{color:#7A7A7A;height:28px;background:#131623;overflow:hidden;font:12px/28px Arial;text-align:center;}
+  #topBar a{color:#FFF;background:#7A7A7A;padding:2px 5px;border-radius:10px;}
+  #nav{height:50px;overflow:hidden;border-top:1px solid #999;border-bottom::1px solid #666;background:#000 url(img/ibm-bg.png) repeat-x;}
+  #nav .logo{float:left;margin:0 20px;}
+  #nav .logo a{float:left;width:100px;height:50px;overflow:hidden;text-indent:-9999px;background:url(img/ibm-logo.png) no-repeat;}
+  #nav .logo a:hover{background-position:0 -50px;}
+  #nav.hide .logo a{width:100px;height:30px;background-position:0 -100px;_background-position:0 -130px;}
+  #nav.hide .logo a:hover{background-position:0 -130px;}
+  #nav ul,#nav ul li{float:left;}
+  #nav ul li a{float:left;color:#CCC;height:50px;font:16px/50px Arial;padding:0 20px;}
+  #nav ul li a:hover{color:#FFF;background:url(img/ibm-bg.png) 0 -50px repeat-x;}
+  #nav.hide ul{display:none;}
+  </style>
+  <script src="js/IBMnavigation.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div id="topBar">【下拉滚动条查看效果】如蒙转载请注明出处 <a href="http://js.fgm.cc">Fgm.cc</a> , By &mdash; Ferris, QQ:21314130</div>
+    <!--/topBar-->
+    <div id="nav">
+        <div class="logo"><a href="javascript:;">IBM</a></div>
+        <ul>
+            <li><a href="javascript:;">解决方案</a></li>
+            <li><a href="javascript:;">服务</a></li>
+            <li><a href="javascript:;">产品</a></li>
+            <li><a href="javascript:;">支持与下载</a></li>
+            <li><a href="javascript:;">个性化服务</a></li>
+        </ul>
+    </div>
+    <!--/nav-->
+</div>
+<!--/wrap-->
+</body>
+</html>
