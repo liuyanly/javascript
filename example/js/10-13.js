@@ -33,7 +33,7 @@ window.onload = function() {
     fnStatus(iScrollTop > 0)
     document.onmouseover = function(ev){
       var oEv = ev || event,
-      oTarget = oEv.oTarget || oEv.srcElement,
+      oTarget = oEv.target || oEv.srcElement,
       contains = function() {
         if(oWrap.contains) {
           return oWrap.contains(oTarget);
