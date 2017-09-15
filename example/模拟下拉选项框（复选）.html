@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>模拟下拉选项</title>
+  <style>
+  ul,li{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  a{
+    color: #000;
+    text-decoration: none;
+  }
+  * {
+    -webkit-box-sizing:border-box;
+       -moz-box-sizing:border-box;
+            box-sizing:border-box;
+  }
+  *:before,
+  *:after{
+    -webkit-box-sizing:border-box;
+       -moz-box-sizing:border-box;
+            box-sizing:border-box;
+  }
+  /*selectmenu*/
+  .selectmenu{
+    position: relative;
+    width: 250px;
+  }
+  .selectmenu .select-a{
+    display: block;
+    height: 32px;
+    line-height: 32px;
+    border: 1px solid #278AE3;
+    border-radius: 2px;
+    padding-left: 16px;
+    padding-right: 27px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .selectmenu .i-arrowdown{
+    position: absolute;
+    right: 8px;
+    top: 13px;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    color: #278AE3;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid ;
+    border-bottom: 5px solid transparent;
+  }
+  .selectmenu .dropdown-menu{
+    position: absolute;
+    top: 31px;
+    z-index: 10;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #278AE3;
+    border-radius: 0 0 2px 2px;
+    display: none;
+  }
+  .selectmenu .dropdown-menu ul{
+      max-height: 230px;
+      overflow: auto;
+  }
+  .dropdown-menu li label{
+    display: block;
+    padding: 5px 20px 5px 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .cs_checkbox_s{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    vertical-align: -2px;
+    margin-right: 8px;
+  }
+  .checkbox .cs_checkbox_s{
+    background: url("img/check.png") no-repeat;
+  }
+  .checkbox.checked .cs_checkbox_s{
+    background: url("img/checked.png") no-repeat;
+  }
+  </style>
+  <script src="js/selectCheck.js"></script>
+</head>
+<body>
+  <div class="selectmenu">
+     <a href="#" class="select-a" title="请选择">请选择<span class="i-arrowdown"></span></a>
+     <div class="dropdown-menu">
+        <ul>
+          <li class="checkbox">
+            <label>
+              <span class="cs_checkbox_s"></span><span class="css-option">风速</span>
+            </label>
+          </li>
+          <li class="checkbox">
+            <label>
+              <span class="cs_checkbox_s"></span><span class="css-option">舱外</span>
+            </label>
+          </li>
+          <li class="checkbox">
+            <label>
+              <span class="cs_checkbox_s"></span><span class="css-option">变浆角3</span>
+            </label>
+          </li>
+          <li class="checkbox">
+            <label>
+              <span class="cs_checkbox_s"></span><span class="css-option">功率因素</span>
+            </label>
+          </li>
+          <li class="checkbox">
+            <label>
+              <span class="cs_checkbox_s"></span><span class="css-option">偏航角度</span>
+            </label>
+          </li>
+          <li class="checkbox">
+            <label>
+              <span class="cs_checkbox_s"></span><span class="css-option">低轴转速速</span>
+            </label>
+          </li>
+          <li class="checkbox">
+            <label>
+              <span class="cs_checkbox_s"></span><span class="css-option">A相相电流</span>
+            </label>
+          </li>
+          <li class="checkbox">
+            <label>
+              <span class="cs_checkbox_s"></span><span class="css-option">舱外</span>
+            </label>
+          </li>
+          <li class="checkbox">
+            <label>
+              <span class="cs_checkbox_s"></span><span class="css-option">变浆角3</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+  </div>
+</body>
+</html>
