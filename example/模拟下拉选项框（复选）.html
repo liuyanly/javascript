@@ -28,6 +28,7 @@
   .selectmenu{
     position: relative;
     width: 250px;
+    margin-bottom: 20px;
   }
   .selectmenu .select-a{
     display: block;
@@ -64,6 +65,18 @@
     border-radius: 0 0 2px 2px;
     display: none;
   }
+  .select-btn {
+    text-align: center;
+    background: #eee;
+  }
+  .select-btn input[type="button"] {
+    width: 100%;
+    border: 1px solid #278AE3;
+    background: #278AE3;
+    padding: 3px 0;
+    color: #fff;
+    cursor: pointer;
+  }
   .selectmenu .dropdown-menu ul{
       max-height: 230px;
       overflow: auto;
@@ -95,52 +108,10 @@
   <div class="selectmenu">
      <a href="#" class="select-a" title="请选择">请选择<span class="i-arrowdown"></span></a>
      <div class="dropdown-menu">
+        <div class="select-btn">
+          <input type="button" value="确定">
+        </div>
         <ul>
-          <li class="checkbox">
-            <label>
-              <span class="cs_checkbox_s"></span><span class="css-option">风速</span>
-            </label>
-          </li>
-          <li class="checkbox">
-            <label>
-              <span class="cs_checkbox_s"></span><span class="css-option">舱外</span>
-            </label>
-          </li>
-          <li class="checkbox">
-            <label>
-              <span class="cs_checkbox_s"></span><span class="css-option">变浆角3</span>
-            </label>
-          </li>
-          <li class="checkbox">
-            <label>
-              <span class="cs_checkbox_s"></span><span class="css-option">功率因素</span>
-            </label>
-          </li>
-          <li class="checkbox">
-            <label>
-              <span class="cs_checkbox_s"></span><span class="css-option">偏航角度</span>
-            </label>
-          </li>
-          <li class="checkbox">
-            <label>
-              <span class="cs_checkbox_s"></span><span class="css-option">低轴转速速</span>
-            </label>
-          </li>
-          <li class="checkbox">
-            <label>
-              <span class="cs_checkbox_s"></span><span class="css-option">A相相电流</span>
-            </label>
-          </li>
-          <li class="checkbox">
-            <label>
-              <span class="cs_checkbox_s"></span><span class="css-option">舱外</span>
-            </label>
-          </li>
-          <li class="checkbox">
-            <label>
-              <span class="cs_checkbox_s"></span><span class="css-option">变浆角3</span>
-            </label>
-          </li>
         </ul>
       </div>
   </div>
