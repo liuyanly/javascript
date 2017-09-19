@@ -14,7 +14,7 @@ function byTagName(elem,obj){
 	return (obj || document).getElementsByTagName(elem);
 }
 function getStyle(element,attr){
-	return parseFloat(element.currentStyle ? element.currentStyle(attr):getComputedStyle(element,null)[attr])
+	return parseFloat(element.currentStyle ? element.currentStyle[attr]:getComputedStyle(element,null)[attr])
 }
 function jdFocus(obj){
 	var oSlider = byClass("slider_main")[0];
