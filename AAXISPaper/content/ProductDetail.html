@@ -7,8 +7,6 @@
     <title>SportsLogo产品详情页面</title>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <script type="text/javascript" src="../js/js.js"></script>
-    <!-- <script type="text/javascript" src="../js/lib/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" src="../js/lib/jquery.imagezoom.min.js"></script> -->
     <!--[if lt IE9]>
     <script>
        (function() {
@@ -59,9 +57,13 @@
         <div class="content clearfix">
           <!--product show start-->
           <div class="Gpic">
-              <div class="tb-box" style="overflow:hidden;">
+              <div class="zoom-pic">
+                <img src="../data/s450x450/img1.jpg">
+              </div>
+              <div class="tb-box">
+                <span class="zoomMask"></span>
+                <span class="zoomDiv"></span>
                 <img src="../data/s450x450/img1.jpg"/>
-                <!-- <i class="icon-zoom"></i> -->
               </div>
               <div class="Xgt">
                 <i class="Al-disabled"></i>
@@ -81,32 +83,6 @@
                 <i class="Ar"></i>
               </div>
             </div>
-            <!-- <div class="Gpic">
-              <div class="tb-pic tb-box" style="overflow:hidden;">
-                <a ID="newPage"><img id="big-img" class="jqzoom" src="../data/img3.jpg" rel="../data/img3.jpg" style="cursor: crosshair;" /></a>
-                <a href="#" class="icon-zoom"></a>
-              </div>
-              <div class="Xgt">
-                <div class="Al"><img src="../data/an1L0.gif" id="goleft" onclick="clickLast()"/></div>
-                <div class="zgt">
-                  <div id="photos" class="zgt">
-                    <div id="showArea" >
-                      <ul>
-                        <li id="li1"><img id="small-img1" src="../data/img1s.jpg" rel="data/img1s.jpg" onclick="clickImg(1);"/></li>
-                        <li id="li2"><img id="small-img2" src="../data/img2s.jpg" rel="data/img2s.jpg" onclick="clickImg(2);"/></li>
-                        <li id="li3"><img id="small-img3" src="../data/img3s.jpg" rel="data/img3s.jpg" onclick="clickImg(3);"/></li>
-                        <li id="li4"><img id="small-img4" src="../data/img1s.jpg" rel="data/img1s.jpg" onclick="clickImg(4);"/></li>
-                        <li id="li5"><img id="small-img5" src="../data/img1s.jpg" rel="data/img1s.jpg" onclick="clickImg(5);"/></li>
-                        <li id="li6"><img id="small-img6" src="../data/img1s.jpg" rel="data/img1s.jpg" onclick="clickImg(6);"/></li>
-                        <li id="li7"><img id="small-img7" src="../data/img1s.jpg" rel="data/img1s.jpg" onclick="clickImg(7);"/></li>
-                        <li id="li8"><img id="small-img8" src="../data/img1s.jpg" rel="data/img1s.jpg" onclick="clickImg(8);"/></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="Ar"><img src="../data/an1R.gif"   id="goright" onclick="clickNext()"/></div>
-              </div>
-            </div> -->
             <!--product show end-->
             <div class="desc-info">
               <h2 class="desc-title">Sports Skirt</h2>

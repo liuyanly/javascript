@@ -46,13 +46,42 @@ window.onload = function() {
     }
     //图片预览
     var oPic = byClass("Gpic")[0];
-    var oImgBig = byTagname("img",oPic)[0];
+    var small = byClass("tb-box",oPic)[0];
+    var smallImg = byTagname("img",small)[0];
+    var mask = byTagname("span",small)[0];
+    var layer = byTagname("span",small)[1];
+    var big = byClass("zoom-pic",oPic)[0];
+    var bigImg = byTagname("img",big)[0];
     var aSwitch = byTagname("i",oPic);
     var oPrev = aSwitch[0];
     var oNext = aSwitch[1];
     var oUl = byTagname("ul",oPic)[0];
     var aImg = byTagname("img",oUl);
     var iNow = 0;
+    // zoom
+    small.onmousemove = function(event){
+        var event = event || window.event;
+        this.style.cursor = "move";
+        layer.style.display = big.style.display = "block";
+        var iT = event.clientY -this.parentNode.parentNode.offsetTop - layer.clientHeight/2;
+        var iL = event.clientX -this.parentNode.parentNode.offsetLeft - layer.clientWidth/2;
+        var maxT = this.clientHeight - layer.clientHeight;
+        var maxL = this.clientWidth - layer.clientWidth;
+        iT <= 0 && (iT = 0);
+        iL <= 0 && (iL = 0);
+        iT >= maxT && (iT = maxT);
+        iL >= maxL && (iL = maxL);
+
+        layer.style.top = iT + "px";
+        layer.style.left = iL + "px";
+        var scaleX = iL / (this.clientHeight - layer.clientHeight);
+        var scaleY = iT / (this.clientWidth - layer.clientWidth);
+        bigImg.style.left = -scaleX * (bigImg.clientWidth - big.clientWidth) + "px";
+        bigImg.style.top = -scaleY * (bigImg.clientHeight - big.clientHeight) + "px";
+    }
+    small.onmouseout = function(){
+        layer.style.display = big.style.display = "none";
+    }
     for (var i = 0; i < aImg.length; i++) {
         aImg[i].index = i;
         aImg[i].onclick = function(){
@@ -70,7 +99,7 @@ window.onload = function() {
             if(iNow < aImg.length){
                 iNow++;
                 iNow >= aImg.length && (iNow = aImg.length - 1);
-                fnSwitch(); 
+                fnSwitch();
             }
         }
     function fnSwitch(){
@@ -78,8 +107,8 @@ window.onload = function() {
                 aImg[j].className = "";
             }
         aImg[iNow].className = "current";
-        oUl.style.left = -(((aImg[0].offsetWidth+7)/1.8)*iNow)+"px";  
-        oImgBig.src = aImg[iNow].src.replace(/s68x68/,"s450x450");5
+        oUl.style.left = -(((aImg[0].offsetWidth+7)/1.8)*iNow)+"px";
+        smallImg.src = bigImg.src =  aImg[iNow].src.replace(/s68x68/,"s450x450");5
         oPrev.className = iNow == 0 ? "Al-disabled":"Al";
         oNext.className = iNow == aImg.length-1 ? "Ar-disabled":"Ar"
     }

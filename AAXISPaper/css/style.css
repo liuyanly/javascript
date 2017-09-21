@@ -134,30 +134,51 @@ nav a:hover{
     border: 1px solid #bebebe;
     margin-bottom: 1px;
     position:relative;
-    text-align:center;
+    overflow: hidden;
   }
   .tb-box img {
     max-width: 100%;
     height: auto;
   }
     .zoomDiv {
-      z-index:999;
-      position:absolute;
-      bottom: 11px;
-      left: 13px;
-      width:51px; height:51px;
-      background:#ffffff;
-      border:1px solid #CCCCCC;
-      display:none;
-      text-align:center;
-      overflow:hidden; }
-    .zoomMask {
-      position:absolute;
-      background: url(common/zoom.png) no-repeat scroll 0 0 transparent;
-      cursor:move;
-      z-index:1;
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: none;
+      width:100px;
+      height:100px;
+      background:#000;
+      filter: "alpha(opacity=50)";
+      opacity: 0.5;
+      border:1px solid #bebebe;
     }
-
+    .zoomMask {
+      position: absolute;
+      z-index: 2;
+      left: 0;
+      top: 0;
+      width:100%;
+      height: 100%;
+      background: red;
+      opacity: 0;
+      filter:"alpha(opacity=0)";
+    }
+    .zoom-pic{
+      position: absolute;
+      left: 460px;
+      top: 0;
+      width:300px;
+      height: 300px;
+      overflow: hidden;
+      border: 1px solid #bebebe;
+      background: #fff;
+      display: none;
+    }
+    .zoom-pic img{
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
 .Xgt{
   width:444px;
   height:92px;
