@@ -17,10 +17,15 @@ window.onload = function(){
   var oNext = byTagName("a",aControl)[1];
   var oUl = byClass("sk_list", oWrapper)[0];
   var aLi = byClass("sk_item", oWrapper);
-  var count = parseInt(aLi.length / 5); // 一列显示5个，得出可以滑动几次
+  var index = 0;
+  var count = Math.ceil((aLi.length-10) / 5); // 所有图片能移动几次
   var iWidthAll = aLi[0].offsetWidth * aLi.length; //总的宽度
   var iWidthOne = aLi[0].offsetWidth * 5; //一次移动5个，移动的宽度
   oUl.style.width = iWidthAll + "px";
+  oUl.style.transform = "translateX("+(-(iWidthOne))+"px)";
+  oUl.style.transitionProperty = "transform";
+  oUl.style.transitionDuration = "0.6s";
+  console.log(count);
   oWrapper.onmouseover=function(){
     aControl.style.display = "block"
   }
@@ -28,11 +33,13 @@ window.onload = function(){
     aControl.style.display = "none"
   }
   oPrev.onclick = function(){
-
-
-    // for(var i= 0 ; i < aLi.length; i++) {
-    //   oUl.style.transform = translateX(aLi[0].offsetWidth * (i+1) * 5);
-    // }
-
+      index == 0 && (index = count);
+      oUl.style.transform = "translateX("+(-(iWidthOne*index))+"px)";
+      index--;
+  }
+  oNext.onclick = function(){
+    index++;
+    index == count && (index = 0);
+    oUl.style.transform = "translateX("+(-(iWidthOne*index))+"px)";
   }
 }
