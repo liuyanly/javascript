@@ -33,13 +33,13 @@ window.onload = function(){
     aControl.style.display = "none"
   }
   oPrev.onclick = function(){
-      index == 0 && (index = count);
+      index < 0 && (index = count);
       oUl.style.transform = "translateX("+(-(iWidthOne*index))+"px)";
       index--;
   }
   oNext.onclick = function(){
-    index++;
-    index == count && (index = 0);
+    index > count && (index = 1);
     oUl.style.transform = "translateX("+(-(iWidthOne*index))+"px)";
+    index++;
   }
 }
