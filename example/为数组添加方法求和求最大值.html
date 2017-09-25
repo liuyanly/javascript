@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>为数组添加方法求和求最大值</title>
+</head>
+<body>
+<script type="text/javascript">
+  Array.prototype.sum = function(){
+   for (var sum = i = 0; i < this.length; i++) {
+     sum += parseInt(this[i]);
+   }
+   return sum;
+  }
+  Array.prototype.maxima = function(){
+    for (var i = 0,maxValue = Number.MIN_VALUE; i < this.length; i++) {
+      parseInt(this[i] > maxValue && (maxValue = this[i]))
+    }
+    return maxValue
+  }
+  var arr = [1,21,3,4,22,45,6,7,32];
+  alert(arr.join("+")+"="+arr.sum());
+  alert(arr.join("|")+"中，最大的数是："+arr.maxima());
+</script>
+</body>
+</html>
