@@ -22,19 +22,25 @@ window.onload= function(){
   var bOrder = true;
   var i = 0;
   oBtn.disabled = false;
+  // 点击按钮事件(开始/返回)
   oBtn.onclick = function(){
     this.disabled = true;
     function begin(){
       bOrder ? i++ : i--;
       doMove(oBox,aData[i],begin)
       if(i == aData.length || i < 0 ) {
+        clearInterval(oBox.timer);
         bOrder = !bOrder;
-        this.value = bOrder ? "开始":"原路返回";
-        this.disabled = false;
-        return
+        oBtn.value = bOrder ? "开始":"原路返回";
+        oBtn.disabled = false;
+        return;
       }
     }
     begin()
+  }
+  //去除按钮虚线
+  oBtn.onfoucs = function(){
+    this.blur();
   }
 }
 function css(element,attr,value){
