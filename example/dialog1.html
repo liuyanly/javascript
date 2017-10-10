@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <title>多选</title>
+</head>
+<body>
+<style>
+*{
+    margin:0;
+    padding:0;
+    list-style: none;
+}
+/* 多选弹出框 */
+.multi {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+.multi-left ul,
+.multi-right ul{
+  max-height: 321px;
+  overflow: auto;
+  margin-right: -15px;
+  margin-left: -15px;
+  margin-bottom: 0;
+  border-top: 1px solid #ddd;
+}
+.multi-left ul{
+  border-right: 1px solid #ddd;
+}
+.multi-left ul li,
+.multi-right ul li{
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 40px;
+  line-height: 40px;
+}
+.multi-title {
+  height: 40px;
+  line-height: 40px;
+}
+.multi-check {
+  width: 50px;
+  display: inline-block;
+}
+.multi-a {
+  color: #58AB4D;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.multi-left ul li:nth-child(odd) {
+  background: #f8f8f8;
+}
+.multi-left ul li.active {
+  background: #D8EED5;
+}
+.multi-right .glyphicon{
+  float: right;
+  margin-top: 11px;
+  font-size: 14px;
+  color: #58AB4D;
+}
+</style>
+<!-- 多选弹出框 -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+            <form class="form-inline">
+                <input type="text" class="form-control" placeholder="输入关键字"> <button type="button" class="btn btn-success">搜索</button>
+            </form>
+            <div class="row multi">
+             <div class="col-xs-7 multi-left">
+                 <div class="multi-title">
+                    <span class="multi-check multi-a" id="checkall">全选</span>
+                    <span>内容名称</span>
+                 </div>
+                 <ul>
+                     <li>
+                        <span class="multi-check"><input type="checkbox"></span>
+                        <span>急刹次数</span>
+                     </li>
+                     <li>
+                        <span class="multi-check"><input type="checkbox"></span>
+                        <span>急刹次数</span>
+                     </li>
+                     <li>
+                        <span class="multi-check"><input type="checkbox"></span>
+                        <span>急刹次数</span>
+                     </li>
+                     <li>
+                        <span class="multi-check"><input type="checkbox"></span>
+                        <span>急刹次数</span>
+                     </li>
+                     <li>
+                        <span class="multi-check"><input type="checkbox"></span>
+                        <span>急刹次数</span>
+                     </li>
+                     <li>
+                        <span class="multi-check"><input type="checkbox"></span>
+                        <span>急刹次数</span>
+                     </li>
+                     <li>
+                        <span class="multi-check"><input type="checkbox"></span>
+                        <span>急刹次数</span>
+                     </li>
+                     <li>
+                        <span class="multi-check"><input type="checkbox"></span>
+                        <span>急刹次数</span>
+                     </li>
+                 </ul>
+             </div>
+             <div class="col-xs-5 multi-right">
+                <div class="multi-title">
+                    <span>已选中</span>
+                    <span class="multi-a pull-right" id="checkCancel">全部清空</span>
+                 </div>
+                 <ul>
+                 </ul>
+            </div>
+          </div>
+          <div class="text-right">
+              <button type="button" class="btn btn-success" data-dismiss="modal">确认</button>
+        <button type="button" class="btn btn-default">取消</button>
+          </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+    // 手动打开模态框
+    $('#checkoutModal').modal('show');
+
+    $(document).ready(function(){
+       var oCheck = $('#checkall');
+       var aCheckBox = $('.multi-left input');
+       var oCancel = $('#checkCancel');
+       var oCancelBox = $('.multi-right ul')[0];
+       console.log(oCancelBox);
+       // 单个选中添加背景色
+       for (var i = 0; i < aCheckBox.length; i++) {
+           aCheckBox[i].onclick = function() {
+            this.checked == true ? this.parentNode.parentNode.className = " active" : this.parentNode.parentNode.className = "" ;
+            var nextElem =  getNextElement(this.parentNode);
+            createElem(nextElem.innerHTML);
+           }
+       }
+       // 全选
+       $('#checkall').on('click',function(){
+            isCheckall();
+       })
+       function isCheckall(){
+        for (var i = 0; i < aCheckBox.length; i++) {
+            aCheckBox[i].checked = true;
+            aCheckBox[i].checked == true ? aCheckBox[i].parentNode.parentNode.className = " active" : aCheckBox[i].parentNode.parentNode.className = "" ;
+            var aNextElem = [];
+            var aNextElem = getNextElement(aCheckBox[i].parentNode);
+            console.log(aNextElem);
+            for (var i = 0; i < aNextElem.length; i++) {
+                createElement(aNextElem[i].innerHTML);
+            }
+        }
+       }
+       // 全部清空
+
+       // 单个删除元素
+
+       // 创建选中元素
+       function createElem(val){
+            var oFrag = document.createDocumentFragment();
+            var oLi = document.createElement("li");
+            var oVal = document.createElement("span");
+            oVal.innerHTML = val;
+            var oIcon = document.createElement("span");
+            oIcon.className = "glyphicon glyphicon-remove-circle";
+            oLi.appendChild(oVal);
+            oLi.appendChild(oIcon);
+            oFrag.appendChild(oLi);
+            oCancelBox.appendChild(oFrag);
+       }
+       // 获取下一个元素
+       function getNextElement(node){
+            if(node.nextSibling.nodeType == 1){    //判断下一个节点类型为1则是“元素”节点
+                return node.nextSibling;
+            }
+            if(node.nextSibling.nodeType == 3){      //判断下一个节点类型为3则是“文本”节点  ，回调自身函数
+                return getNextElement(node.nextSibling);
+            }
+            return null;
+        }
+    })
+</script>
+</body>
+</html>
