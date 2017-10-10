@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>js原生自动播放选项卡</title>
+<style type="text/css">
+  *{
+    padding:0;
+    margin:0;
+    font-family:'微软雅黑';
+  }
+  body{
+    background:#555;
+  }
+  a{
+    text-decoration:none;
+    color:#333;
+  }
+  li{
+    list-style:none;
+  }
+  #Tab_box{
+    width: 400px;
+    margin:50px auto;
+  }
+  .T_menu{
+    overflow: hidden;
+  }
+  .T_menu li{
+    float:left;
+    width: 100px;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    background:#efefef;
+    cursor:pointer;
+  }
+  .T_menu li.active{
+    background:red;
+    color:#fff;
+  }
+  .listbox{
+    position:relative;
+    overflow: hidden;
+    width: 400px;
+    height:304px;
+    background:blue;
+  }
+  .listbox ul{
+    /*position: absolute;
+    left: 0;
+    top:0;*/
+  }
+  .listbox li{
+    width: 396px;
+    height:300px;
+    border:2px #ccc solid;
+    text-align: center;
+    font-size:50px;
+    font-weight:bold;
+    line-height: 300px;
+    float:left;
+    cursor:pointer;
+  }
+</style>
+<script src="js/autoPlayTab.js">
+</script>
+</head>
+<body>
+<div id="Tab_box">
+  <ul class="T_menu">
+    <li class="active">选项一</li>
+    <li>选项二</li>
+    <li>选项三</li>
+    <li>选项四</li>
+  </ul>
+  <div class="listbox">
+    <ul>
+      <li style="background:#eeaadd;left:0;">一</li>
+      <li style="background:#fefefe">二</li>
+      <li style="background:#aaa">三</li>
+      <li style="background:#f88">四</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>
