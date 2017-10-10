@@ -23,7 +23,7 @@
 }
 .multi-left ul,
 .multi-right ul{
-  max-height: 321px;
+  max-height: 329px;
   overflow: auto;
   margin-right: -15px;
   margin-left: -15px;
@@ -37,6 +37,7 @@
 .multi-right ul li{
   padding-left: 15px;
   padding-right: 15px;
+  margin-bottom: 1px;
   height: 40px;
   line-height: 40px;
 }
@@ -141,7 +142,7 @@
        var aCheckBox = $('.multi-left input');
        var oCancel = $('#checkCancel');
        var oCancelBox = $('.multi-right ul')[0];
-       console.log(oCancelBox);
+       
        // 单个选中添加背景色
        for (var i = 0; i < aCheckBox.length; i++) {
            aCheckBox[i].onclick = function() {
@@ -155,19 +156,21 @@
             isCheckall();
        })
        function isCheckall(){
+        var aNextElem = [];
         for (var i = 0; i < aCheckBox.length; i++) {
             aCheckBox[i].checked = true;
             aCheckBox[i].checked == true ? aCheckBox[i].parentNode.parentNode.className = " active" : aCheckBox[i].parentNode.parentNode.className = "" ;
-            var aNextElem = [];
-            var aNextElem = getNextElement(aCheckBox[i].parentNode);
-            console.log(aNextElem);
-            for (var i = 0; i < aNextElem.length; i++) {
-                createElement(aNextElem[i].innerHTML);
-            }
+            var aNextElemAll = getNextElement(aCheckBox[i].parentNode);
+            aNextElem.push(aNextElemAll.innerHTML);
+        }
+        for (var i = 0; i < aNextElem.length; i++) {
+            createElem(aNextElem[i]);
         }
        }
        // 全部清空
-
+       oCancel.onclick = function(){
+        oCancelBox.removeChild(aCancelLi);
+       }
        // 单个删除元素
 
        // 创建选中元素
@@ -182,6 +185,9 @@
             oLi.appendChild(oIcon);
             oFrag.appendChild(oLi);
             oCancelBox.appendChild(oFrag);
+            var aCancelLi = oCancelBox.getElementsByTagName("li"); 
+
+
        }
        // 获取下一个元素
        function getNextElement(node){
