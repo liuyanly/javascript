@@ -138,68 +138,113 @@
     $('#checkoutModal').modal('show');
 
     $(document).ready(function(){
+        isCheck();
+    })
+    function isCheck(){
        var oCheck = $('#checkall');
        var aCheckBox = $('.multi-left input');
        var oCancel = $('#checkCancel');
        var oCancelBox = $('.multi-right ul')[0];
-       
+       var aCancelLi = oCancelBox.getElementsByTagName("li");
+       var aDel = oCancelBox.getElementsByTagName("i");
+       var aNextElem = [];
+       var oNum=[];
        // 单个选中添加背景色
        for (var i = 0; i < aCheckBox.length; i++) {
+           aCheckBox[i].index = i;
            aCheckBox[i].onclick = function() {
-            this.checked == true ? this.parentNode.parentNode.className = " active" : this.parentNode.parentNode.className = "" ;
-            var nextElem =  getNextElement(this.parentNode);
-            createElem(nextElem.innerHTML);
+                var num = this.index;
+                var obj={};
+                obj.num=aCheckBox[num];
+                oNum.push(obj);
+                console.log(obj.num);
+                status(this,true);
+                var nextElem =  getNextElement(this.parentNode);
+                createElem(oCancelBox, nextElem.innerHTML);
+                delElem(oCancelBox,aDel,num,function(){
+                    console.log(num)
+                    status(aCheckBox[num],false)
+                });
            }
        }
        // 全选
        $('#checkall').on('click',function(){
-            isCheckall();
+            for (var i = 0; i < aCheckBox.length; i++) {
+                aCheckBox[i].setAttribute("num",i)
+                var num = aCheckBox[i].getAttribute("num");
+                console.log(num);
+                status(aCheckBox[i],true);
+                var aNextElemAll = getNextElement(aCheckBox[i].parentNode);
+                aNextElem.push(aNextElemAll.innerHTML);
+            }
+            for (var i = 0; i < aNextElem.length; i++) {
+                createElem(oCancelBox, aNextElem[i]);
+            }
+            // delElem(oCancelBox,aDel);
+            delElem(oCancelBox,aDel,num,function(){
+                console.log(num);
+                status(aCheckBox[num]);
+            });
        })
-       function isCheckall(){
-        var aNextElem = [];
-        for (var i = 0; i < aCheckBox.length; i++) {
-            aCheckBox[i].checked = true;
-            aCheckBox[i].checked == true ? aCheckBox[i].parentNode.parentNode.className = " active" : aCheckBox[i].parentNode.parentNode.className = "" ;
-            var aNextElemAll = getNextElement(aCheckBox[i].parentNode);
-            aNextElem.push(aNextElemAll.innerHTML);
-        }
-        for (var i = 0; i < aNextElem.length; i++) {
-            createElem(aNextElem[i]);
-        }
-       }
        // 全部清空
-       oCancel.onclick = function(){
-        oCancelBox.removeChild(aCancelLi);
-       }
-       // 单个删除元素
-
-       // 创建选中元素
-       function createElem(val){
-            var oFrag = document.createDocumentFragment();
-            var oLi = document.createElement("li");
-            var oVal = document.createElement("span");
-            oVal.innerHTML = val;
-            var oIcon = document.createElement("span");
-            oIcon.className = "glyphicon glyphicon-remove-circle";
-            oLi.appendChild(oVal);
-            oLi.appendChild(oIcon);
-            oFrag.appendChild(oLi);
-            oCancelBox.appendChild(oFrag);
-            var aCancelLi = oCancelBox.getElementsByTagName("li"); 
-
-
-       }
-       // 获取下一个元素
-       function getNextElement(node){
-            if(node.nextSibling.nodeType == 1){    //判断下一个节点类型为1则是“元素”节点
-                return node.nextSibling;
+       $('#checkCancel').on("click",function(){
+            if(aCancelLi.length <= 0) {
+                var oMsg = document.createElement("li");
+                oMsg.innerHTML = "你还没有选择";
+                oCancelBox.appendChild(oMsg)
+            }else{
+                removeChildren(oCancelBox);
+                for (var i = 0; i < aCheckBox.length; i++) {
+                    status(aCheckBox[i],false)
+                }
             }
-            if(node.nextSibling.nodeType == 3){      //判断下一个节点类型为3则是“文本”节点  ，回调自身函数
-                return getNextElement(node.nextSibling);
+        });
+
+    }
+    // 单个删除元素
+    function delElem(obj,arr,num,callback){
+        for (var i = 0; i < arr.length; i++) {
+            arr[i].onclick = function(){
+                obj.removeChild(this.parentNode);
+                callback && callback();
             }
-            return null;
         }
-    })
+    }
+    // 选中与否的状态
+    function status(elem,boolean){
+        elem.checked = boolean;
+        elem.checked == true ? elem.parentNode.parentNode.className = " active" : elem.parentNode.parentNode.className = "" ;
+    }
+    // 创建选中元素
+   function createElem(obj,val){
+    var oFrag = document.createDocumentFragment();
+    var oLi = document.createElement("li");
+    var oVal = document.createElement("span");
+    oVal.innerHTML = val;
+    var oIcon = document.createElement("i");
+    oIcon.className = "glyphicon glyphicon-remove-circle";
+    oLi.appendChild(oVal);
+    oLi.appendChild(oIcon);
+    oFrag.appendChild(oLi);
+    obj.appendChild(oFrag);
+   }
+   // 删除所有子节点
+   function removeChildren(pnode){
+        var childs=pnode.childNodes;
+        for(var i=childs.length-1;i>=0;i--){
+            pnode.removeChild(childs.item(i));
+        }
+    }
+   // 获取下一个元素
+   function getNextElement(node){
+        if(node.nextSibling.nodeType == 1){    //判断下一个节点类型为1则是“元素”节点
+            return node.nextSibling;
+        }
+        if(node.nextSibling.nodeType == 3){      //判断下一个节点类型为3则是“文本”节点  ，回调自身函数
+            return getNextElement(node.nextSibling);
+        }
+        return null;
+    }
 </script>
 </body>
 </html>
