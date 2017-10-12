@@ -23,7 +23,7 @@
 }
 .multi-left ul,
 .multi-right ul{
-  max-height: 329px;
+  height: 329px;
   overflow: auto;
   margin-right: -15px;
   margin-left: -15px;
@@ -83,36 +83,36 @@
                  </div>
                  <ul>
                      <li>
-                        <span class="multi-check"><input type="checkbox"></span>
-                        <span>急刹次数</span>
+                        <i class="multi-check"><input type="checkbox"></i>
+                        <span>急刹次数ac1</span>
                      </li>
                      <li>
-                        <span class="multi-check"><input type="checkbox"></span>
-                        <span>急刹次数</span>
+                        <i class="multi-check"><input type="checkbox"></i>
+                        <span>急刹次数ab2</span>
                      </li>
                      <li>
-                        <span class="multi-check"><input type="checkbox"></span>
-                        <span>急刹次数</span>
+                        <i class="multi-check"><input type="checkbox"></i>
+                        <span>急刹次数ba3</span>
                      </li>
                      <li>
-                        <span class="multi-check"><input type="checkbox"></span>
-                        <span>急刹次数</span>
+                        <i class="multi-check"><input type="checkbox"></i>
+                        <span>急刹次数bb4</span>
                      </li>
                      <li>
-                        <span class="multi-check"><input type="checkbox"></span>
-                        <span>急刹次数</span>
+                        <i class="multi-check"><input type="checkbox"></i>
+                        <span>急刹次数ca5</span>
                      </li>
                      <li>
-                        <span class="multi-check"><input type="checkbox"></span>
-                        <span>急刹次数</span>
+                        <i class="multi-check"><input type="checkbox"></i>
+                        <span>急刹次数cc6</span>
                      </li>
                      <li>
-                        <span class="multi-check"><input type="checkbox"></span>
-                        <span>急刹次数</span>
+                        <i class="multi-check"><input type="checkbox"></i>
+                        <span>急刹次数da7</span>
                      </li>
                      <li>
-                        <span class="multi-check"><input type="checkbox"></span>
-                        <span>急刹次数</span>
+                        <i class="multi-check"><input type="checkbox"></i>
+                        <span>急刹次数db8</span>
                      </li>
                  </ul>
              </div>
@@ -138,8 +138,22 @@
     $('#checkoutModal').modal('show');
 
     $(document).ready(function(){
+        // 检索
+        $('#checkBtn').on('click',function(){
+            search();
+        })
         isCheck();
     })
+    function search() {
+        var oCheckInput = document.getElementById("checkInput");
+        var oCheckBox = $('.multi-left ul')[0];
+        var aCheckLi = $('.multi-left ul span');
+        for (var i = 0; i < aCheckLi.length; i++) {
+            if(aCheckLi[i].innerHTML.search(oCheckInput.value) == -1){
+                oCheckBox.removeChild(aCheckLi[i].parentNode);
+            }
+        }
+    }
     function isCheck(){
        var oCheck = $('#checkall');
        var aCheckBox = $('.multi-left input');
@@ -148,16 +162,16 @@
        var aCancelLi = oCancelBox.getElementsByTagName("li");
        var aDel = oCancelBox.getElementsByTagName("i");
        var aNextElem = [];
-       var oNum=[];
+       // var oNum=[];
        // 单个选中添加背景色
        for (var i = 0; i < aCheckBox.length; i++) {
            aCheckBox[i].index = i;
            aCheckBox[i].onclick = function() {
                 var num = this.index;
-                var obj={};
-                obj.num=aCheckBox[num];
-                oNum.push(obj);
-                console.log(obj.num);
+                // var obj={};
+                // obj.num=aCheckBox[num];
+                // oNum.push(obj);
+                // console.log(obj.num);
                 status(this,true);
                 var nextElem =  getNextElement(this.parentNode);
                 createElem(oCancelBox, nextElem.innerHTML);
@@ -182,7 +196,6 @@
             }
             // delElem(oCancelBox,aDel);
             delElem(oCancelBox,aDel,num,function(){
-                console.log(num);
                 status(aCheckBox[num]);
             });
        })
