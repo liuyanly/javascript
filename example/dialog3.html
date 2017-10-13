@@ -82,7 +82,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <form class="form-inline">
-                        <input type="text" class="form-control" id="keyWords" placeholder="输入关键字"> <button type="button" class="btn btn-success" id="checkBtn">搜索</button>
+                        <input type="text" class="form-control" placeholder="输入关键字" id="keyWords"> <button id="checkBtn" type="button" class="btn btn-success">搜索</button>
                     </form>
                     <div class="row multi">
                         <div class="col-xs-7 multi-left">
@@ -145,64 +145,95 @@
         // 手动打开模态框
         $('#checkoutModal').modal('show');
 
-        function Content(){
-            this.allCheckBox = $("div.multi-left input[type=checkbox]");
+        function Content() {
+            this.container = $("div.multi-right ul:first");
+            this.highLightClass = "active";
+            this.storeKey = "key";
+            this.tempAttrKey = "_key";
+
+            this.initialize();
         };
 
         Content.prototype.initialize = function(){
             var This=this;
-            this.allCheckBox.each(function(){
-                $(this).change(function(i){
-                    if(this.checked){
-                        var parent = $(this).parent().parent();
-                        parent.addClass("active");
-                        This.addChild(parent.text());
+            $("div.multi-left input[type=checkbox]").each(function(i){
+                $(this).change(function(){
+                    if (this.checked) {
+                        var parent = $(this).parent().parent().addClass(This.highLightClass);
+                        This.addChild(parent,i);
                     }else{
-                        $(this).parent().parent().removeClass("active");
+                        $(this).parent().parent().removeClass(This.highLightClass);
+                        This.container.find("li[" + This.tempAttrKey + "=" + i + "]").remove();
                     }
                 });
+            });
+
+            $("div.multi-right ul:first").on("click", "i.glyphicon", function () {
+                var tempAttrKey = $(this).attr(This.tempAttrKey);
+                $("div.multi-left ul:first li").each(function () {
+                    if ($(this).attr(This.tempAttrKey) == tempAttrKey)
+                        $(this).removeClass(This.highLightClass).find("input[type=checkbox]:first").removeAttr("checked");
+                });
+                $(this).parent().remove();
             });
         };
 
         Content.prototype.checkAll=function(){
             var This=this;
-            $("div.multi-right ul").empty();
-            this.allCheckBox.each(function(){
-                $(this).attr("checked",true);
-                var parent = $(this).parent().parent();
-                parent.addClass("active");
-                This.addChild(parent.text());
+            this.container.empty();
+            $("div.multi-left input[type=checkbox]:visible").each(function (i) {
+                $(this).prop("checked", "checked");
+                var parent = $(this).parent().parent().addClass(This.highLightClass);
+                This.addChild(parent,i);
             });
         };
 
-        Content.prototype.clearAll=function(){
-            $("div.multi-right ul").empty();
-            this.allCheckBox.each(function(){
-                $(this).attr("checked",false).parent().parent().removeClass("active");
+        Content.prototype.clearAll = function () {
+            var This = this;
+            this.container.empty();
+            $("div.multi-left input[type=checkbox]").each(function(){
+                $(this).removeAttr("checked").parent().parent().removeClass(This.highLightClass);
             });
         };
 
-        Content.prototype.addChild=function(obj){
-            $("div.multi-right ul").append("<li><span>"+obj+"</span><i class='glyphicon glyphicon-remove-circle'></i></li>");
+        Content.prototype.addChild = function (obj, index) {
+            var isExisted = false;
+            var This = this;
+            $("div.multi-right ul:first li").each(function () {
+                if ($(this).attr(This.tempAttrKey) == index)
+                    isExisted = true;
+            });
+
+            if (isExisted) return;
+
+            var iconClose = $("<i class='glyphicon glyphicon-remove-circle'></i>");
+            iconClose.attr(this.tempAttrKey, index);
+            obj.attr(this.tempAttrKey, index);
+            var target = $("<li><span>" + obj.text() + "</span></li>").append(iconClose);
+            target.attr(this.tempAttrKey, index);
+            this.container.append(target);
         };
 
-        Content.prototype.search=function(){
-            $("div.multi-left ul span").each(function(){
-                if($(this).text().indexOf($('#keyWords').val()) > -1){
-                    $(this).parent().css("display","");
-                }else{
-                    $(this).parent().css("display","none");
+        Content.prototype.search = function () {
+            var txt = $("#keyWords").val();
+            $("div.multi-left ul:first li").each(function () {
+                var obj = $(this);
+                if (txt.length == 0)
+                    obj.show();
+                else {
+                    if (obj.text().indexOf(txt) >= 0)
+                        obj.show();
+                    else
+                        obj.hide();
                 }
-            })
+            });
         };
 
         $(function(){
             var content = new Content();
 
-            content.initialize();
-
             // 检索
-            $('#checkBtn').on('click',function(){
+            $('#checkBtn').click(function () {
                 content.search();
             });
 
@@ -214,9 +245,6 @@
                 content.clearAll();
             });
 
-            $("div.multi-right ul").on("click","i.glyphicon",function(){
-                $(this).parent().remove();
-            });
         });
     </script>
 </body>
