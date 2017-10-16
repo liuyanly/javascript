@@ -156,6 +156,7 @@
 
         Content.prototype.initialize = function(){
             var This=this;
+            // 遍历checkbox 索引i传入, checkbox change事件,选中添加背景色并创建到右边 设置_key等于i 取消选中,移除背景色,右边找到_key值等于i 移除li
             $("div.multi-left input[type=checkbox]").each(function(i){
                 $(this).change(function(){
                     if (this.checked) {
@@ -167,7 +168,7 @@
                     }
                 });
             });
-
+            // 单个删除 删除ICON当前的_key  遍历获取左边列表的_key 等于删除ICON当前的_key  移除左边列表li的选中背景色 取消checkbox的勾选状态
             $("div.multi-right ul:first").on("click", "i.glyphicon", function () {
                 var tempAttrKey = $(this).attr(This.tempAttrKey);
                 $("div.multi-left ul:first li").each(function () {
@@ -181,6 +182,7 @@
         Content.prototype.checkAll=function(){
             var This=this;
             this.container.empty();
+            // 遍历左边列表的checkbox 索引i传入, 设置属性checked = checked li 添加背景色, 全部选中添加到右边
             $("div.multi-left input[type=checkbox]:visible").each(function (i) {
                 $(this).prop("checked", "checked");
                 var parent = $(this).parent().parent().addClass(This.highLightClass);
@@ -191,6 +193,7 @@
         Content.prototype.clearAll = function () {
             var This = this;
             this.container.empty();
+            // 遍历左边checkbox 取消勾选，移除li的背景色
             $("div.multi-left input[type=checkbox]").each(function(){
                 $(this).removeAttr("checked").parent().parent().removeClass(This.highLightClass);
             });
@@ -199,6 +202,7 @@
         Content.prototype.addChild = function (obj, index) {
             var isExisted = false;
             var This = this;
+            // 遍历右边列表_key == 传进去的i, isExisted = true
             $("div.multi-right ul:first li").each(function () {
                 if ($(this).attr(This.tempAttrKey) == index)
                     isExisted = true;
@@ -207,15 +211,19 @@
             if (isExisted) return;
 
             var iconClose = $("<i class='glyphicon glyphicon-remove-circle'></i>");
+            //删除图标设置_key
             iconClose.attr(this.tempAttrKey, index);
+            //左边的li设置_key
             obj.attr(this.tempAttrKey, index);
             var target = $("<li><span>" + obj.text() + "</span></li>").append(iconClose);
+            // 右边的li设置_key
             target.attr(this.tempAttrKey, index);
             this.container.append(target);
         };
 
         Content.prototype.search = function () {
             var txt = $("#keyWords").val();
+            // 遍历左边字符串 indexof(检索input输入的value的字符)  返回值 >= 0,如果要检索的字符串值出现，则该方法返回 >= 0。
             $("div.multi-left ul:first li").each(function () {
                 var obj = $(this);
                 if (txt.length == 0)
