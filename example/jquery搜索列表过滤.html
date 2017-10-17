@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery实现的搜索列表过滤</title>
+    <style>
+        body{background: #fff; font-size: 13px;}
+        #wrap{position: relative;}
+        .product-head h1{font-size: 14px;font-family: Arial, Helvetica, sans-serif;margin-bottom: 3px;margin-left: 3px;}
+        .product-head{font-size: 12px;padding: 4px;background-color: #ccc;width: 235px;}
+        .filterform input{font-size: 15px;padding: 3px;border: 1px solid #999;}
+        li{padding: 5px;margin: 3px;list-style: none;width: 230px;border-top: 1px solid #ccc;}
+        li a{color: #000;font-family: Arial, Helvetica, sans-serif;font-size: 11px}
+        ul{margin: 0;padding: 0;}
+        .clear{clear: both;}
+    </style>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/filterlist.js"></script>
+</head>
+<body>
+<noscript><div id="noscript">需要开启浏览器的JavaScript功能才能查看更多效果!</div></noscript>
+<div id="container">
+    <div id="wrap">
+        <div class="product-head">
+            <h1>搜索</h1>
+            <div id="form"></div>
+            <div class="clear"></div>
+        </div>
+        <ul id="list">
+            <li><p href="#/Apple/">html</p></li>
+            <li><p href="#/Broccoli/">css</p></li>
+            <li><p href="#/Carrot/">javascript</p></li>
+            <li><p href="#/Celery/">jQuery</p></li>
+            <li><p href="#/Lettuce/">less</p></li>
+            <li><p href="#/Mushroom/">sass</p></li>
+            <li><p href="#/Onion/">php</p></li>
+        </ul>
+    </div>
+</body>
+</html>
