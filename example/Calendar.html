@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    .wrap{
+      margin: 0 auto;
+      width: 350px;
+      font-size: 0;
+      border-left: 1px solid #000;
+      border-top: 1px solid #000;
+    }
+    .wrap span{
+      box-sizing: border-box;
+      display: inline-block;
+      width: 50px;
+      border-right: 1px solid #000;
+      border-bottom: 1px solid #000;
+      line-height: 40px;
+      font-size: 16px;
+      text-align: center;
+    }
+    .date-title span{
+      font-size: 20px;
+      line-height: 50px;
+      width: 100%;
+    }
+    .date-body{
+      margin: 0 auto;
+      width: 350px;
+    }
+
+    .today{
+      background: #0ff;
+    }
+    .other-month{
+      color: #ccc;
+    }
+    button,input{
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div align="center">
+    <button id="pre-month">上个月</button>
+    <button id="next-month">下个月</button>
+    <br>
+    <button id="pre-year">上一年</button>
+    <button id="next-year">下一年</button>
+    <br>
+    <button id="now">回到本月</button>
+    <br>
+    年：<input type="text" id="cus-year">
+    月：<input type="text" id="cus-month">
+    <button id="submit">提交</button>
+  </div>
+  <div class="wrap">
+    <div class="date-title">
+      <span>
+        今天是xxxx年xx月
+      </span>
+    </div>
+    <div>
+      <span>日</span>
+      <span>一</span>
+      <span>二</span>
+      <span>三</span>
+      <span>四</span>
+      <span>五</span>
+      <span>六</span>
+    </div>
+    <div class="date-body"></div>
+  </div>
+  <script>
+    /*
+      **create by lizhenhu
+      **time: 2017 09 27
+    */
+
+    /*
+
+      //api
+      num : year
+      num : month
+      num : date
+      num : day
+      num : time
+      data: getData()
+      data: preMonth()
+      data: nextMonth()
+      data: preYear()
+      data: nextYear()
+      data: thisMonth()
+      data: costomDate()
+
+      data{isToday,isThisMonth,date}
+
+    */
+
+    function Calendar(){
+
+
+      var calendar = new Object();
+
+      //日期数据基础
+      calendar.baseDate = new Date();
+
+      //初始化
+      calendar.init = function (){
+        this.year = this.baseDate.getFullYear();
+        this.month = this.baseDate.getMonth();
+        this.date = this.baseDate.getDate();
+        this.day = this.baseDate.getDay();
+        this.time = this.baseDate.getTime();
+      }
+
+      calendar.init();
+
+      //获取数据
+      calendar.getData = function (){
+        var data = [];
+
+        //起始值
+        var date = new Date(this.year,this.month,1);
+        date.setTime(date.getTime() - 86400000 * date.getDay());
+
+        do{
+          for(var i=0; i<7; i++){
+            var obj = {};
+
+            obj.isThisMonth = date.getMonth() == this.month? true : false;
+            obj.isToday = date.getDate() == this.date && obj.isThisMonth? true : false;
+            obj.date = date.getDate();
+            data.push(obj);
+            date.setTime(date.getTime() + 86400000);
+          }
+        } while(date.getMonth() == this.month);
+
+        return data;
+      }
+
+      //上月
+      calendar.preMonth = function (){
+        this.month--;
+        this.baseDate.setMonth(this.month);
+        this.init();
+
+        return this.getData();
+      }
+
+      //下月
+      calendar.nextMonth = function (){
+        this.month++;
+        this.baseDate.setMonth(this.month);
+        this.init();
+
+        return this.getData();
+      }
+
+      //上一年
+      calendar.preYear = function (){
+        this.year -= 1;
+        this.baseDate.setFullYear(this.year);
+        this.init();
+
+        return this.getData();
+      }
+
+      //下一年
+      calendar.nextYear = function (){
+        this.year += 1;
+        this.baseDate.setFullYear(this.year);
+        this.init();
+
+        return this.getData();
+      }
+
+      //本月
+      calendar.thisMonth = function (){
+        this.baseDate = new Date();
+        this.init();
+
+        return this.getData();
+      }
+
+      //自定义年月
+      calendar.customDate = function (year,month){
+        this.year = +year;
+        this.month = +month;
+        this.baseDate.setFullYear(this.year);
+        this.baseDate.setMonth(this.month - 1);
+        this.init();
+
+        return this.getData();
+      }
+
+      //返回值
+      return calendar;
+
+    }
+  </script>
+  <script>
+    var dateTitle = document.querySelector('.date-title span');
+    var dateBody = document.querySelector('.date-body');
+    var pm = document.querySelector('#pre-month');
+    var nm = document.querySelector('#next-month');
+    var py = document.querySelector('#pre-year');
+    var ny = document.querySelector('#next-year');
+
+    var now = document.querySelector('#now');
+
+    var cy = document.querySelector('#cus-year');
+    var cm = document.querySelector('#cus-month');
+    var sub = document.querySelector('#submit');
+    var calendar = new Calendar();
+
+    // 初始化
+    function init(){
+      var data = calendar.getData();
+      fn(data);
+    }
+
+    init();
+
+    pm.onclick = function(){
+      calendar.preMonth();
+      init();
+    }
+
+    nm.onclick = function(){
+      calendar.nextMonth();
+      init();
+    }
+
+    py.onclick = function(){
+      calendar.preYear();
+      init();
+    }
+
+    ny.onclick = function(){
+      calendar.nextYear();
+      init();
+    }
+
+    now.onclick = function (){
+      data = calendar.thisMonth();
+      init();
+    }
+
+    sub.onclick = function(){
+      var v1 = cy.value;
+      var v2 = cm.value;
+      if(v1 && v2){
+        calendar.customDate(v1,v2);
+        init();
+      }
+    }
+
+    function fn(data){
+      dateTitle.innerHTML = calendar.year+'年'+(calendar.month+1)+'月';
+      dateBody.innerHTML = '';
+      for(var i=0; i<data.length; i++){
+        var span = document.createElement('span');
+        if(data[i].isToday){
+          span.classList.add('today');
+        }
+        if(!data[i].isThisMonth){
+          span.classList.add('other-month');
+        }
+        span.innerHTML = data[i].date;
+        dateBody.appendChild(span);
+      }
+    }
+  </script>
+</body>
+</html>
