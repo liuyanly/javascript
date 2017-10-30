@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <title>多选</title>
+</head>
+<body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        /* 多选弹出框 */
+        .multi {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .multi-left ul,
+        .multi-right ul {
+            height: 329px;
+            overflow: auto;
+            margin-right: -15px;
+            margin-left: -15px;
+            margin-bottom: 0;
+            border-top: 1px solid #ddd;
+        }
+
+        .multi-left ul {
+            border-right: 1px solid #ddd;
+        }
+
+            .multi-left ul li,
+            .multi-right ul li {
+                padding-left: 15px;
+                padding-right: 15px;
+                margin-bottom: 1px;
+                height: 40px;
+                line-height: 40px;
+            }
+
+        .multi-title {
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .multi-check {
+            width: 50px;
+            display: inline-block;
+        }
+
+        .multi-a {
+            color: #58AB4D;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .multi-left ul li:nth-child(odd) {
+            background: #f8f8f8;
+        }
+
+        .multi-left ul li.active {
+            background: #D8EED5;
+        }
+
+        .multi-right .glyphicon {
+            float: right;
+            margin-top: 11px;
+            font-size: 14px;
+            color: #58AB4D;
+        }
+    </style>
+    <!-- 多选弹出框 -->
+    <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form class="form-inline">
+                        <input type="text" class="form-control" placeholder="输入关键字" id="keyWords"> <button id="checkBtn" type="button" class="btn btn-success">搜索</button>
+                    </form>
+                    <div class="row multi">
+                        <div class="col-xs-7 multi-left">
+                            <div class="multi-title">
+                                <span class="multi-check multi-a" id="checkall">全选</span>
+                                <span>内容名称</span>
+                            </div>
+                            <ul>
+                                <li>
+                                    <i class="multi-check"><input type="checkbox"></i>
+                                    <span>急刹次数ac1</span>
+                                </li>
+                                <li>
+                                    <i class="multi-check"><input type="checkbox"></i>
+                                    <span>急刹次数ab2</span>
+                                </li>
+                                <li>
+                                    <i class="multi-check"><input type="checkbox"></i>
+                                    <span>急刹次数ba3</span>
+                                </li>
+                                <li>
+                                    <i class="multi-check"><input type="checkbox"></i>
+                                    <span>急刹次数bb4</span>
+                                </li>
+                                <li>
+                                    <i class="multi-check"><input type="checkbox"></i>
+                                    <span>急刹次数ca5</span>
+                                </li>
+                                <li>
+                                    <i class="multi-check"><input type="checkbox"></i>
+                                    <span>急刹次数cc6</span>
+                                </li>
+                                <li>
+                                    <i class="multi-check"><input type="checkbox"></i>
+                                    <span>急刹次数da7</span>
+                                </li>
+                                <li>
+                                    <i class="multi-check"><input type="checkbox"></i>
+                                    <span>急刹次数db8</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-5 multi-right">
+                            <div class="multi-title">
+                                <span>已选中</span>
+                                <span class="multi-a pull-right" id="checkCancel">全部清空</span>
+                            </div>
+                            <ul id="container"></ul>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button type="button" class="btn btn-success" data-dismiss="modal">确认</button>
+                        <button type="button" class="btn btn-default">取消</button>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script type="text/javascript">
+        // 手动打开模态框
+        $('#checkoutModal').modal('show');
+        function Content() {
+            this.container = $("div.multi-right ul:first");
+            this.highLightClass = "active";
+            this.tempAttrKey = "_key";
+            this.initialize();
+        }
+        Content.prototype.initialize = function(){
+            var This = this;
+            $("div.multi-left ul:first input[type=checkbox]").each(function(i){
+                $(this).change(function(){
+                    if(this.checked){
+                        var parent = $(this).parent().parent().addClass(This.highLightClass)
+                        This.addChild(parent,i)
+                    }else{
+                        $(this).parent().parent().removeClass(This.highLightClass);
+                        This.container.find("li["+This.tempAttrKey+"="+i+"]").remove();
+                    }
+                })
+            })
+
+            $("div.multi-right ul:first").on("click","i.glyphicon",function(){
+                var tempAttrKey = $(this).attr(This.tempAttrKey);
+                $("div.multi-left ul:first li").each(function(){
+                    if($(this).attr(This.tempAttrKey) == tempAttrKey){
+                        $(this).removeClass(This.highLightClass).find("input[type=checkbox]:first").removeAttr("checked");
+                    }
+                })
+                $(this).parent().remove();
+            })
+        }
+        Content.prototype.checkall = function(){
+            var This = this;
+            this.container.empty();
+            $("div.multi-left ul:first input[type=checkbox]").each(function(i){
+                $(this).prop("checked","checked");
+                var parent = $(this).parent().parent().addClass(This.highLightClass)
+                This.addChild(parent,i)
+            })
+        }
+        Content.prototype.clearAll = function(){
+            var This = this;
+            this.container.empty();
+            $("div.multi-left ul:first input[type=checkbox]").each(function(){
+                $(this).removeAttr("checked").parent().parent().removeClass(This.highLightClass)
+            })
+        }
+        Content.prototype.addChild = function(obj, index){
+            var This = this;
+            var isExisted = false;
+            $("div.multi-right ul:first li").each(function(){
+                if($(this).attr(This.tempAttrKey) == index){
+                    isExisted = true;
+                }
+            })
+            if(isExisted) return;
+            var iconClose = $("<i class='glyphicon glyphicon-remove-circle'></i>");
+            iconClose.attr(this.tempAttrKey, index);
+            obj.attr(this.tempAttrKey, index);
+            var target = $("<li><span>" + obj.text() + "</span></li>").append(iconClose);
+            target.attr(this.tempAttrKey, index);
+            this.container.append(target);
+        }
+        Content.prototype.search = function() {
+            var txt = $("#keyWords").val();
+            $("div.multi-left ul:first li").each(function(){
+                var obj = $(this);
+                if(txt.length == 0){
+                    obj.show()
+                }else{
+                    if(obj.text().indexOf(txt) >= 0){
+                        obj.show()
+                    }else{
+                        obj.hide()
+                    }
+                }
+            })
+        }
+        $(function(){
+            var content = new Content();
+            $("#checkBtn").click(function(){
+                content.search();
+            })
+            $("#checkall").click(function(){
+              content.checkall();
+            })
+            $("#checkCancel").click(function(){
+                content.clearAll();
+            })
+        })
+    </script>
+</body>
+</html>
