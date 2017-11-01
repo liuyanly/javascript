@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>css模拟select</title>
+	<style>
+		* {	
+			margin:0; 
+			padding: 0;
+			list-style: none;
+		}
+		.warpper { 
+			width: 1000px; 
+			margin:50px auto; 
+		}
+		.clearfix:after{
+			content: "";
+			display: block;
+			height: 0;
+			clear: both;
+			visibility: hidden;
+		}
+		.clearfix{
+			*+height:1%;
+		}
+		.dropdown_box {
+			position: relative;
+			float: left;
+			height: 36px;
+			line-height: 36px;
+			border-radius:4px;
+			border: 1px solid #ccc;
+			cursor: pointer;
+		}
+		.dropdown_box .dropdown_menu {
+			float: left;
+			padding: 0 5px;
+		}
+		.dropdown_box .caret {
+			float: right;
+			margin-top: 14px;
+			margin-left: 8px;
+			margin-right: 8px;
+			width: 0;
+			height: 0;
+			border-left: 4px solid transparent;
+			border-right: 4px solid transparent;
+			border-top: 4px solid ;
+			border-bottom: 4px solid transparent;
+		}
+		.dropdown_list {
+			display: none;
+			position: absolute;
+			top: 100%;
+			left: -1px;
+			width: 100%;
+			border-radius:4px;
+			border:1px solid #ccc;
+		}
+		.dropdown_list li{
+			padding: 0 5px;
+		}
+		.dropdown_list li:hover{
+			background: #eee;
+		}
+	</style>
+	<script src="js/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.dropdown_box').click(function(){
+				var ul = $(this).find('.dropdown_list');
+				if(ul.css("display") == "none"){
+					ul.show();
+				}else{
+					ul.hide();
+				}
+			});
+			$('.dropdown_list li').click(function(){
+				var txt = $(this).html();
+				$(this).parents('.dropdown_box').find('.dropdown_menu').html(txt);
+			})
+		})
+	</script>
+</head>
+<body>
+<div class="warpper">
+	<div class="dropdown_box">
+		<span class="dropdown_menu">选项1</span><i class="caret"></i>
+		<ul class="dropdown_list">
+			<li>蔬菜1</li>
+			<li>蔬菜2</li>
+			<li>蔬菜3</li>
+			<li>蔬菜4</li>
+			<li>蔬菜5</li>
+		</ul>
+	</div>
+	<div class="dropdown_box">
+		<span class="dropdown_menu">选项2</span><i class="caret"></i>
+		<ul class="dropdown_list">
+			<li>水果1</li>
+			<li>水果2</li>
+			<li>水果3</li>
+			<li>水果4</li>
+			<li>水果5</li>
+		</ul>
+	</div>
+	<div class="dropdown_box">
+		<span class="dropdown_menu">选项3</span><i class="caret"></i>
+		<ul class="dropdown_list">
+			<li>零食1</li>
+			<li>零食2</li>
+			<li>零食3</li>
+			<li>零食4</li>
+			<li>零食5</li>
+		</ul>
+	</div>
+</div>
+</body>
+</html>
