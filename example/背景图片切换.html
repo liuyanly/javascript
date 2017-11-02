@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    html{
+        height: 100%;
+        /*overflow: auto;*/
+      }
+    body{
+      height: 100%;
+      overflow: hidden;
+      background-image: url("img/bg/1.jpg");
+      background-repeat:no-repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      -webkit-background-size: cover;
+         -moz-background-size: cover;
+           -o-background-size: cover;
+    }
+  </style>
+
+</head>
+<body>
+<script type="text/javascript">
+    window.onload = function(){
+      setInterval(step,10000);
+    }
+    var oBody = document.body;
+    var num = 1;
+    function step(){
+      if(num < 4) {
+        num++;
+      }else{
+        num = 1;
+      }
+      oBody.style.backgroundImage = "url(img/bg/"+num+".jpg)";
+    }
+  </script>
+</body>
+</html>
