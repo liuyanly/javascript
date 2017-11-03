@@ -253,6 +253,11 @@
       .active .num_in{
         color: #fff;
       }
+      .active .icon_num{
+         pointer-events: none;
+         filter: alpha(opacity=75);
+         opacity: .75;
+      }
       .active .icon_minus {
          background: url(../img/img.png) no-repeat -40px -100px;
       }
